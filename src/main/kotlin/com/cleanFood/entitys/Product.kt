@@ -6,11 +6,11 @@ import jakarta.persistence.*
 class Product (
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    var id: String,
+    var id: String? = null,
     var name: String,
     var price: Double,
     var stock: Int,
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "orderId", referencedColumnName = "id")
-    var order: Order
+    var order: Order? = null
 )

@@ -5,17 +5,30 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import java.lang.Exception
+import org.springframework.web.context.request.WebRequest
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
+import java.util.Date
 
 @ControllerAdvice
-class ExceptionControllerAdvice {
+class ExceptionControllerAdvice : ResponseEntityExceptionHandler(){
 
-    @ExceptionHandler
-    public fun handleIlegalStateExcetion(ex: IllegalStateException):ResponseEntity<ExceptionMessage>{
+    @ExceptionHandler(Exception::class)
+    public fun handleAllExteptions(ex: Exception, request: WebRequest):ResponseEntity<ExceptionMessage>{
         val errorMessage = ExceptionMessage(
-            HttpStatus.NOT_FOUND.value(),
-            ex.message
+            Date(),
+            ex.message,
+            request.getDescription(false)
         )
         return ResponseEntity(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ExceptionProductNotFounded::class)
+    fun productNotFounded(ex: Exception, request: WebRequest):ResponseEntity<ExceptionMessage>{
+        val exceptionMessage = ExceptionMessage(
+            Date(),
+            ex.message,
+            request.getDescription(false)
+        )
+        return ResponseEntity<ExceptionMessage>(exceptionMessage, HttpStatus.NOT_FOUND);
     }
 }

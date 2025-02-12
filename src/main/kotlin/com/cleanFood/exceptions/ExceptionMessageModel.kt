@@ -1,6 +1,9 @@
 package com.cleanFood.exceptions
 
+import java.util.Date
+
 class ExceptionMessage (
-    var status: Int? = null,
-    var message: String? = null
+    val timestap: Date,
+    val message: String? = null,
+    val details: String,
 )

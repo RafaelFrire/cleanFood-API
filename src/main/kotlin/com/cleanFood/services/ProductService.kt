@@ -1,6 +1,6 @@
 package com.cleanFood.services
 
-import com.cleanFood.dtos.ProductResponseDTO
+import com.cleanFood.dtos.ProductDTO
 import com.cleanFood.entitys.Product
 import com.cleanFood.exceptions.ExceptionProductNotFounded
 import com.cleanFood.repository.ProductRepository
@@ -8,14 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.Optional
 import kotlin.Exception
-import kotlin.jvm.optionals.toSet
 
 @Service
 class ProductService(){
     @Autowired
     private lateinit var productRepository: ProductRepository;
 
-    fun store(data:ProductResponseDTO):Product{
+    fun store(data:ProductDTO):Product{
         try{
             var product: Product = Product(name = data.name, price = data.price, stock = data.stock, order = null);
             productRepository.save(product);
@@ -50,7 +49,7 @@ class ProductService(){
         }
     }
 
-    fun update(id: String, data:ProductResponseDTO):Product{
+    fun update(id: String, data:ProductDTO):Product{
         try{
             val productRecord:Product = this.productRepository.findById(id).orElseThrow(
                 {ExceptionProductNotFounded("Produto não encontrado")});

@@ -1,6 +1,6 @@
 package com.cleanFood.controllers
 
-import com.cleanFood.dtos.ProductResponseDTO
+import com.cleanFood.dtos.ProductDTO
 import com.cleanFood.entitys.Product
 import com.cleanFood.services.ProductService
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,12 +25,12 @@ class ProductController {
     }
 
     @PostMapping("/product/store")
-    fun storeProduct(@RequestBody product: ProductResponseDTO): Product{
+    fun storeProduct(@RequestBody product: ProductDTO): Product{
         return productService.store(product);
     }
 
     @PatchMapping("/product/{id}/update")
-    fun updateProduct(@PathVariable(value = "id") id:String, @RequestBody product:ProductResponseDTO):Product{
+    fun updateProduct(@PathVariable(value = "id") id:String, @RequestBody product:ProductDTO):Product{
        return productService.update(id, product);
     }
 }

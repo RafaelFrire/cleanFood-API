@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.Optional
 import kotlin.Exception
+import kotlin.jvm.optionals.toSet
 
 @Service
 class ProductService(){
@@ -42,12 +43,42 @@ class ProductService(){
     fun findMany():List<Product>{
         try{
             val productList: List<Product> = this.productRepository.findAll();
-
             return productList;
-
         }
         catch (ex:Exception){
             throw Exception("error" + ex.message);
+        }
+    }
+
+    fun update(id: String, data:ProductResponseDTO):Product{
+        try{
+            val productRecord:Product = this.productRepository.findById(id).orElseThrow(
+                {ExceptionProductNotFounded("Produto não encontrado")});
+
+            productRecord.name = data.name;
+            productRecord.price = data.price;
+            productRecord.stock = data.stock;
+
+            this.productRepository.save(productRecord);
+
+            return productRecord;
+        }
+        catch (ex: Exception){
+            throw Exception("error" + ex.message);
+        }
+    }
+
+    fun delete(id:String){
+        try{
+            val productRecord:Product = this.productRepository.findById(id).orElseThrow(
+                {ExceptionProductNotFounded("Produto não encontrado")}
+            )
+
+            this.productRepository.delete(productRecord);
+        }
+        catch (ex: Exception){
+            throw Exception("error" + ex.message);
+
         }
     }
 }

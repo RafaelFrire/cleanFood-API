@@ -4,13 +4,8 @@ import com.cleanFood.dtos.ProductResponseDTO
 import com.cleanFood.entitys.Product
 import com.cleanFood.services.ProductService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
-import java.util.Optional
+import org.springframework.web.bind.annotation.*
+import java.util.*
 
 
 @RestController
@@ -34,5 +29,8 @@ class ProductController {
         return productService.store(product);
     }
 
-
+    @PatchMapping("/product/{id}/update")
+    fun updateProduct(@PathVariable(value = "id") id:String, @RequestBody product:ProductResponseDTO):Product{
+       return productService.update(id, product);
+    }
 }
